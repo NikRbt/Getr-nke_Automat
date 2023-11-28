@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1701182939 source:c:\users\robit\desktop\software\getränkeautomat\main.cpp
+	<iostream>
+	<string>
+
