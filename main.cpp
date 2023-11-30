@@ -1,9 +1,10 @@
+// TODO: re-write the code in ENGLISH!!!!!!!!!!!!
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-double kauf(double& preis);
+double kauf(double& preis); // TODO: <- declare change in this function and pass it each do while iteration
 int menu_Sicherheit(int menu);
 double approved_coins(double coin);
 
@@ -11,15 +12,17 @@ double approved_coins(double coin);
 // main function
 int main() {
     char j;
-    double coin = 0;
+    double coin = 0; // TODO: rename this to currenct_coin
+    // TODO: defined total_change here!!!
+
 
     do {
         double cola = 1, water = 2, sprite = 1.5;
         double change = 0;
-        int m;
+        int m; // TODO: renamed this properly
 
-        cout << "Coins:" << coin << endl;
 
+        cout << "Coins:" << coin << endl; // TODO: change + coin
         cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
         cin.sync();
         cin >> m;
@@ -28,7 +31,7 @@ int main() {
 
         switch (m) {
             case 1:
-                kauf(cola);
+                kauf(cola); // TODO: <- pass change here!
                 break;
 
             case 2:
@@ -51,7 +54,7 @@ int main() {
 }
 
 double kauf(double& preis) {
-    double coin, change;
+    double coin, change; // TODO: remove change from here
 
     cout << "\t\nBitte Geld einwerfen:" << endl;
     cin.sync();
@@ -61,9 +64,9 @@ double kauf(double& preis) {
 
     if (coin > preis) {
         change = coin - preis;
-        cout << "\t\nIhr Rückgeld und Getränk: " << change << endl;
+        cout << "\t\nIhr Rï¿½ckgeld und Getrï¿½nk: " << change << endl;
     } else if (coin == preis) {
-        cout << "\t\nHier ist Ihr Getränk" << endl;
+        cout << "\t\nHier ist Ihr Getrï¿½nk" << endl;
     } else {
         do {
             cout << "\t\nGeld nicht ausreichend. Bitte noch " << (preis = preis - coin) << " einwerfen:" << endl;
@@ -73,9 +76,10 @@ double kauf(double& preis) {
             coin = approved_coins(coin);
         } while (preis > coin);
 
+        // TODO: if total_change is not zero ask the user if he wants to use he change from the previous purchase
         change = coin - preis;
 
-        cout << "\t\nIhr Rückgeld und Getränk: " << change << endl;
+        cout << "\t\nIhr Rï¿½ckgeld und Getrï¿½nk: " << change << endl;
     }
 
     return coin;
@@ -83,7 +87,7 @@ double kauf(double& preis) {
 
 int menu_Sicherheit(int menu) {
     if (menu > 3 || menu == 0) {
-        cout << "\nSie können nur diese 3 Getränke auswählen. Bitte wählen Sie:" << endl;
+        cout << "\nSie kï¿½nnen nur diese 3 Getrï¿½nke auswï¿½hlen. Bitte wï¿½hlen Sie:" << endl;
         cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
         cin.sync();
         cin >> menu;
