@@ -4,25 +4,26 @@
 
 using namespace std;
 
-double kauf(double& preis); // TODO: <- declare change in this function and pass it each do while iteration
-int menu_Sicherheit(int menu);
+double kauf(double& preis, double change); // TODO: <- declare change in this function and pass it each do while iteration
+int menu_Sicherheit(int select_drink);
 double approved_coins(double coin);
 
 
-// main function
+
+
 int main() {
     char j;
-    double coin = 0; // TODO: rename this to currenct_coin
+    double coin = 0.0; // TODO: rename this to currenct_coin
     // TODO: defined total_change here!!!
-
+    double totalChange = 0.0;
 
     do {
-        double cola = 1, water = 2, sprite = 1.5;
-        double change = 0;
+        double cola = 1.0, water = 2.0, sprite = 1.5;
+
         int m; // TODO: renamed this properly
 
 
-        cout << "Coins:" << coin << endl; // TODO: change + coin
+        cout << "Coins:" << totalChange << endl; // TODO: change + coin
         cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
         cin.sync();
         cin >> m;
@@ -31,18 +32,19 @@ int main() {
 
         switch (m) {
             case 1:
-                kauf(cola); // TODO: <- pass change here!
+              totalChange = 2; // TODO: <- pass change here!
                 break;
 
             case 2:
-                kauf(water);
+              totalChange = kauf(water,totalChange);
                 break;
 
             case 3:
-                kauf(sprite);
-                coin = kauf(sprite);
+               totalChange = kauf(sprite,totalChange);
                 break;
         }
+
+
 
         cout << "\t\nNoch etwas? [j]ja [n]nein:" << endl;
         cin.sync();
@@ -53,20 +55,36 @@ int main() {
     return 0;
 }
 
-double kauf(double& preis) {
-    double coin, change; // TODO: remove change from here
+double kauf(double& preis,double change) {
+    double coin; // TODO: remove change from here
+    char j;
+
+    if(change != 0)
+        {
+            cout<<"Will you use change to previous purchase \nj[yes] \nn[no] "<<endl;
+            cin.sync();
+            cin>>j;
+
+            if(j == 'j')
+            {
+              return change;
+            }
+
+        }
 
     cout << "\t\nBitte Geld einwerfen:" << endl;
     cin.sync();
-    cin >> coin;
+    cin >> coin
+    ;
 
     coin = approved_coins(coin);
 
     if (coin > preis) {
-        change = coin - preis;
-        cout << "\t\nIhr R�ckgeld und Getr�nk: " << change << endl;
+        coin = coin - preis;
+        cout << "\t\nIhr R�ckgeld und Getr�nk: " << coin << endl;
     } else if (coin == preis) {
         cout << "\t\nHier ist Ihr Getr�nk" << endl;
+        coin = coin - preis;
     } else {
         do {
             cout << "\t\nGeld nicht ausreichend. Bitte noch " << (preis = preis - coin) << " einwerfen:" << endl;
@@ -77,6 +95,7 @@ double kauf(double& preis) {
         } while (preis > coin);
 
         // TODO: if total_change is not zero ask the user if he wants to use he change from the previous purchase
+
         change = coin - preis;
 
         cout << "\t\nIhr R�ckgeld und Getr�nk: " << change << endl;
@@ -85,15 +104,15 @@ double kauf(double& preis) {
     return coin;
 }
 
-int menu_Sicherheit(int menu) {
-    if (menu > 3 || menu == 0) {
-        cout << "\nSie k�nnen nur diese 3 Getr�nke ausw�hlen. Bitte w�hlen Sie:" << endl;
+int menu_Sicherheit(int select_drink) {
+    if (select_drink > 3 || select_drink == 0) {
+        cout << "\nSie konnen nur diese 3 Getranke auswahlen. Bitte wahlen Sie:" << endl;
         cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
         cin.sync();
-        cin >> menu;
+        cin >> select_drink;
     }
 
-    return menu;
+    return select_drink;
 }
 
 double approved_coins(double coin) {
