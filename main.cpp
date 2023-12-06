@@ -3,102 +3,110 @@
 
 using namespace std;
 
-double purchase(double& price);
+double purchase(double& current_coin, double price);
 int security_menu(int select_drink);
-double approved_coins(double coin);
+double approved_coins(double& coin);
+bool ask_for_change();
 
 int main() {
-    char j;
-    double coin = 0.0; // TODO: rename this to current_coin
-    // TODO: define total_change here!!!
-    double totalChange = 0.0;
+    char choice;
+
+    double current_coin = 0.0; // Initialize the coin balance outside the loop.
 
     do {
-        double cola = 1.0, water = 2.0, sprite = 1.5;
+        double cola_price = 1.0, water_price = 2.0, sprite_price = 1.5;
 
-        int m; // TODO: rename this properly
+        int selectedOption;
 
-        cout << "Coins:" << totalChange << endl; // TODO: change + coin
-        cout << "\n1.Cola $1\n2.Water $2\n3.Sprite $1.5\n" << endl;
-        cin.sync();
-        cin >> m;
+        cout << "Coins: " << current_coin << endl;
+        cout << "\n1. Cola $1\n2. Water $2\n3. Sprite $1.5\n" << endl;
+        cin >> selectedOption;
 
-        m = security_menu(m);
+        selectedOption = security_menu(selectedOption);
 
-        switch (m) {
-            case 1:
-                purchase(cola); // TODO: <- pass change here!
-                break;
+        current_coin = purchase(current_coin, (selectedOption == 1) ? cola_price : (selectedOption == 2) ? water_price : sprite_price);
 
-            case 2:
-                purchase(water);
-                break;
+        cout << "\t\nAnything else? [y] yes [n] no:" << endl;
+        cin >> choice;
 
-            case 3:
-                purchase(sprite);
-                break;
-        }
-
-        cout << "\t\nAnything else? [j]yes [n]no:" << endl;
-        cin.sync();
-        cin >> j;
-
-    } while (j == 'j');
+    } while (choice == 'y');
 
     return 0;
 }
 
-double purchase(double& price) {
-    double coin;
-    char j;
+double purchase(double& current_coin, double price) {
+    double insertedCoin;
+    double change;
 
     cout << "\t\nPlease insert money:" << endl;
-    cin.sync();
-    cin >> coin;
+    cin >> insertedCoin;
 
-    coin = approved_coins(coin);
+    insertedCoin = approved_coins(insertedCoin);
 
-    if (coin > price) {
-        coin = coin - price;
-        cout << "\t\nYour change and drink: $" << coin << endl;
-    } else if (coin == price) {
-        cout << "\t\nHere is your drink" << endl;
-        coin = coin - price;
+    current_coin += insertedCoin;
+    cout << "Current Coins: " << current_coin << endl;
+
+    if (current_coin >= price) {
+        change = current_coin - price;
+        cout << "\t\nYour change and drink: $" << change << endl;
+        if (!ask_for_change()) {
+            current_coin = 0.0;  // Reset the coin balance to 0 for the next purchase.
+        } else {
+            // Keep the change for the next transaction.
+            current_coin = change;
+        }
     } else {
         do {
-            cout << "\t\nInsufficient funds. Please insert an additional $" << (price = price - coin) << ":" << endl;
-            cin.sync();
-            cin >> coin;
+            cout << "\t\nInsufficient funds. Please insert an additional $" << (price - current_coin) << ":" << endl;
+            cin >> insertedCoin;
 
-            coin = approved_coins(coin);
-        } while (price > coin);
+            insertedCoin = approved_coins(insertedCoin);
+            current_coin += insertedCoin;
 
-        coin = coin - price;
+        } while (current_coin < price);
 
-        cout << "\t\nYour change and drink: $" << coin << endl;
+        change = current_coin - price;
+        cout << "\t\nYour change and drink: $" << change << endl;
+        if (!ask_for_change()) {
+            current_coin = 0.0;  // Reset the coin balance to 0 for the next purchase.
+        } else {
+            // Keep the change for the next transaction.
+            current_coin = change;
+        }
     }
 
-    return coin;
+    return current_coin;
 }
 
 int security_menu(int select_drink) {
-    if (select_drink > 3 || select_drink == 0) {
+    while (select_drink > 3 || select_drink == 0) {
         cout << "\nYou can only choose from these 3 drinks. Please choose:" << endl;
-        cout << "\n1.Cola $1\n2.Water $2\n3.Sprite $1.5\n" << endl;
-        cin.sync();
+        cout << "\n1. Cola $1\n2. Water $2\n3. Sprite $1.5\n" << endl;
         cin >> select_drink;
     }
 
     return select_drink;
 }
 
-double approved_coins(double coin) {
+double approved_coins(double& coin) {
     while (!(coin == 0.1 || coin == 0.2 || coin == 0.5 || coin == 1 || coin == 2)) {
         cout << "\nOnly the following coins are allowed:\n\t$0.1\t$0.2\t$0.5\t$1\t$2" << endl;
         cout << "\t\nPlease insert money:" << endl;
-        cin.sync();
         cin >> coin;
     }
 
     return coin;
+}
+
+bool ask_for_change() { // Query for keeping change, this function returns a boolean.
+    char response;
+    cout << "\t\nDo you want to keep the change for the next purchase? [y] yes [n] no:" << endl;
+    cin >> response;
+
+    if (response == 'y' || response == 'Y'){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
