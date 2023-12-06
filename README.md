@@ -1,189 +1,172 @@
-# Getranke_Automat
-Dieses Programm simuliert einen Getränkeautomaten, der drei Getränke anbietet: Cola, Sprite und Wasser. Alle drei Getränke haben unterschiedliche Preise. Man kann nur bestimmte Münzen einwerfen, nämlich  0.1, 0.2, 0.5, 1 und 2 . Falls man zu wenig einwirft, erscheint eine Meldung, die angibt, wie viel Geld noch übrig ist. Diese Meldung wird solange angezeigt, bis der Benutzer den genauen Betrag eingeworfen hat oder mehr als erforderlich. Wenn der Benutzer mehr einwirft, gibt das Programm am Ende das Rückgeld zurück. Es erscheint ebenfalls eine Fehlermeldung, wenn man andere Münzen als vorgeschrieben einwirft.
+# Beverage_Vending_Machine
 
+This program simulates a beverage vending machine that offers three drinks: Cola, Sprite, and Water. Each drink has a different price. Only specific coins (0.1, 0.2, 0.5, 1, and 2) are accepted. If the user inserts insufficient money, the program displays a message indicating how much more money is needed. This message continues to be displayed until the user inserts the exact amount or more. If the user inserts more money than required, the program returns the change. An error message is displayed if the user inserts coins other than those specified.
 
-## menu_Sicherheit
-Als Erstes habe ich eine Funktion für die Menüüberprüfung erstellt, names menu_Sicherheit:
+## menu_Security
 
-`int menu_Sicherheit(int menu);`
+Firstly, a function named `menu_Security` has been created to check the validity of the selected menu option:
 
-Diese Funktion überprüft, welche Zahlen eingegeben werden, da es im Menü nur 3 Getränke gibt. Wenn eine andere Zahl eingegeben wird, wird der Benutzer aufgefordert, erneut eine der oben genannten Getränkeoptionen auszuwählen. Die Funktion gibt einen Integer-Wert zurück, nämlich menu:
- 
- ```c++
- if(menu > 3 || menu == 0)
-    {
-        cout<<"\nSie konnen nur Diese 3 getranke Auswählen bitte wahlen sie "<<endl;
-        cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
-        cin.sync();
-        cin >> menu;
-
-    }
-     return menu;
+```cpp
+int menu_Security(int menu);
 ```
 
-Eine if-Verzweigung überprüft, ob die eingegebene Zahl größer oder gleich null ist. Falls dies der Fall ist, gibt die Meldung aus, dass nur die 3 oben genannten Getränke ausgewählt werden können, und fordert den Benutzer auf, erneut das Menü auszuwählen, solange die eingegebene Zahl nicht 1, 2 oder 3 ist. Nach Eingabe einer neuen Zahl wird diese in der Variable menu gespeichert und mit return menu; zurückgegeben.
+This function validates the user input to ensure that only valid options (1, 2, or 3) are accepted for selecting a drink. If an invalid option is entered, the user is prompted to choose one of the specified drink options. The function returns the validated menu option:
 
-Die Funktion menu_Sicherheit wird in der main-Funktion aufgerufen, nachdem abgefragt wurde, welches Getränk ausgewählt werden soll. Dies gewährleistet, dass eine eventuelle Fehleingabe durch die if-Verzweigung erkannt und der Benutzer aufgefordert wird, eine gültige Getränkeoption zu wählen.
+```cpp
+if(menu > 3 || menu == 0)
+{
+    cout<<"\nYou can only choose from these 3 drinks. Please choose:"<<endl;
+    cout << "\n1. Cola $1\n2. Water $2\n3. Sprite $1.5\n" << endl;
+    cin.sync();
+    cin >> menu;
+}
 
-  menu_sicherheit wird in variable m gespeichert 
+return menu;
+```
 
-  ` m = menu_Sicherheit(m);`
+The `menu_Security` function is called in the main function after querying the user for the selected drink. This ensures that any input errors are detected, and the user is prompted to choose a valid drink option.
 
-  So wird der aktualisierte Wert in der Variable m gespeichert, der dann später in einer switch-Anweisung verwendet wird, um die entsprechende Getränkeoption zu verarbeiten.
+```cpp
+m = menu_Security(m);
+```
 
-
+This line saves the updated value in the variable `m`, which is then used later in a switch statement to process the corresponding drink option.
 
 ## approved_coins
 
-Als Nächstes habe ich eine Funktion namens approved_coins erstellt:
+The next function is named `approved_coins`:
 
-`double approved_coins(double coin);`
+```cpp
+double approved_coins(double& coin);
+```
 
-Diese Funktion überprüft, ob die eingegebene Münze gültig ist, indem sie nur bestimmte Werte akzeptiert, nämlich 0.1, 0.2, 0.5, 1 und 2:
+This function checks whether the entered coin is valid by accepting only specific values (0.1, 0.2, 0.5, 1, and 2):
 
-```c++
+```cpp
 while(!(coin == 0.1 || coin == 0.2 || coin == 0.5 || coin == 1 || coin == 2))
 {
-    cout << "\nEs sind nur folgende Münzen zugelassen:\n\t0.1\t0.2\t0.5\t1\t2" << endl;
-    cout << "\tBitte Münze einwerfen:" << endl;
+    cout << "\nOnly the following coins are allowed:\n\t$0.1\t$0.2\t$0.5\t$1\t$2" << endl;
+    cout << "\tPlease insert money:" << endl;
     cin.sync();
     cin >> coin;
-};
+}
 ```
-In einer Schleife wird überprüft, ob die eingegebene Münze nicht einer der zulässigen Werte entspricht. Falls nicht, wird dem Benutzer mitgeteilt, welche Münzwerte akzeptiert werden, und er wird aufgefordert, eine gültige Münze einzulegen. Die Schleife wird so lange wiederholt, bis eine gültige Münze eingegeben wird.
 
-Die Funktion gibt die akzeptierte Münze zurück:
+Within a loop, the function checks if the entered coin does not match any of the allowed values. If not, the user is informed of the acceptable coin values and prompted to insert a valid coin. The loop continues until a valid coin is entered. The function returns the accepted coin:
 
-`return coin;`
+```cpp
+return coin;
+```
 
+In the main function, this function can be used when the user inserts money to ensure that only valid coins are accepted:
 
-In der main-Funktion kann diese Funktion genutzt werden, wenn der Benutzer Geld einwirft, um sicherzustellen, dass nur gültige Münzen akzeptiert werden:
+```cpp
+coin = approved_coins(coin);
+```
 
-`coin = approved_coins(coin);`
+This line validates the entered coin value before further use in the program.
 
+## purchase
 
-Auf diese Weise wird der eingegebene Münzwert überprüft und akzeptiert, bevor er weiter im Programm verwendet wird.
+The `purchase` function simulates the process of purchasing a drink. The user is prompted to insert money, and the `approved_coins` function is utilized to ensure that only valid coins are accepted. It then checks whether the inserted money is sufficient to buy the drink.
 
-## kauf
+If enough money is inserted, the change is calculated and displayed to the user.
+If the inserted money exactly matches the price, the user is informed that the drink is dispensed.
+If insufficient money is inserted, the user is prompted to add the missing amount until enough money is provided.
+The function returns the total amount inserted (`current_coin`), which is essential for later use in the main function:
 
-Diese Funktion simuliert den Kaufprozess für ein Getränk. Der Benutzer wird aufgefordert, Geld einzulegen, und die Funktion approved_coins wird verwendet, um sicherzustellen, dass nur gültige Münzen akzeptiert werden. Dann wird überprüft, ob das eingeworfene Geld ausreicht, um das Getränk zu kaufen.
+```cpp
+coin = purchase(current_coin, (selectedOption == 1) ? cola_price : (selectedOption == 2) ? water_price : sprite_price);
+```
 
-Falls genug Geld eingeworfen wurde, wird das Rückgeld berechnet und dem Benutzer angezeigt.
-Falls das eingeworfene Geld genau dem Preis entspricht, wird dem Benutzer mitgeteilt, dass das Getränk ausgegeben wird.
-Falls zu wenig Geld eingeworfen wurde, wird der Benutzer aufgefordert, den fehlenden Betrag nachzuwerfen, und dies wird so lange wiederholt, bis genug Geld vorhanden ist.
-Die Funktion gibt den insgesamt eingeworfenen Betrag coin zurück, was auch für die spätere Verwendung in der main-Funktion wichtig sein könnte:
+In this example, the function is called for purchasing a Sprite drink, and the updated coin balance is returned and stored in the variable `coin`.
 
-`coin = kauf(sprite);`
+## CODE
 
-In diesem Beispiel wird die Funktion für den Kauf eines Sprite-Getränks aufgerufen, und der aktualisierte Geldbetrag wird zurückgegeben und in der Variable coin gespeichert.
-
-# CODE
-```c++
+```cpp
+// Include necessary libraries
 #include <iostream>
 #include <string>
 
 using namespace std;
 
-double kauf(double& preis);
-int menu_Sicherheit(int menu);
-double approved_coins(double coin);
+// Function prototypes
+double purchase(double& current_coin, double price);
+int menu_Security(int select_drink);
+double approved_coins(double& coin);
+bool ask_for_change();
 
 int main() {
-    char j;
-    double coin = 0;
+    // Initialize variables
+    char choice;
+    double current_coin = 0.0; // Initialize the coin balance outside the loop.
 
+    // Main loop for vending machine interactions
     do {
-        double cola = 1, water = 2, sprite = 1.5;
-        double change = 0;
-        int m;
+        // Set prices for drinks
+        double cola_price = 1.0, water_price = 2.0, sprite_price = 1.5;
 
-        cout << "Coins:" << coin << endl;
+        // User's selected drink option
+        int selectedOption;
 
-        cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
-        cin.sync();
-        cin >> m;
+        // Display current coin balance and drink options
+        cout << "Coins: " << current_coin << endl;
+        cout << "\n1. Cola $1\n2. Water $2\n3. Sprite $1.5\n" << endl;
+        cin >> selectedOption;
 
-        m = menu_Sicherheit(m);
+        // Validate selected drink option
+        selectedOption = menu_Security(selectedOption);
 
-        switch (m) {
-            case 1:
-                kauf(cola);
-                break;
+        // Process the purchase and update the coin balance
+        current_coin = purchase(current_coin, (selectedOption == 1) ? cola_price : (selectedOption == 2) ? water_price : sprite_price);
 
-            case 2:
-                kauf(water);
-                break;
+        // Prompt user for additional purchases
+        cout << "\t\nAnything else? [y] yes [n] no:" << endl;
+        cin >> choice;
 
-            case 3:
-                kauf(sprite);
-                coin = kauf(sprite);
-                break;
-        }
-
-        cout << "\t\nNoch etwas? [j]ja [n]nein:" << endl;
-        cin.sync();
-        cin >> j;
-
-    } while (j == 'j');
+    } while (choice == 'y');
 
     return 0;
 }
 
-double kauf(double& preis) {
-    double coin, change;
+// Function to handle the purchase of a drink
+double purchase(double& current_coin, double price) {
+    double insertedCoin;
+    double change;
 
-    cout << "\t\nBitte Geld einwerfen:" << endl;
-    cin.sync();
-    cin >> coin;
+    // Prompt user to insert money
+    cout << "\t\nPlease insert money:" << endl;
+    cin >> insertedCoin;
 
-    coin = approved_coins(coin);
+    // Validate the inserted coin
+    insertedCoin = approved_coins(insertedCoin);
 
-    if (coin > preis) {
-        change = coin - preis;
-        cout << "\t\nIhr Rückgeld und Getränk: " << change << endl;
-    } else if (coin == preis) {
-        cout << "\t\nHier ist Ihr Getränk" << endl;
+    // Update the current coin balance
+    current_coin += insertedCoin;
+    cout << "Current Coins: " << current_coin << endl;
+
+    // Check if there is enough money to purchase the drink
+    if (current_coin >= price) {
+        // Calculate and display the change
+        change = current_coin - price;
+        cout << "\t\nYour change and drink: $" << change << endl;
+        // Ask user if they want to keep the change for the next purchase
+        if (!ask_for_change()) {
+            current_coin = 0.0;  // Reset the coin balance to 0 for the next purchase.
+        } else {
+            // Keep the change for the next transaction.
+            current_coin = change;
+        }
     } else {
+        // Insufficient funds, prompt user to insert additional money
         do {
-            cout << "\t\nGeld nicht ausreichend. Bitte noch " << (preis = preis - coin) << " einwerfen:" << endl;
-            cin.sync();
-            cin >> coin;
+            cout << "\t\nInsufficient funds. Please insert an additional $" << (price - current_coin) << ":" << endl;
+            cin >> insertedCoin;
 
-            coin = approved_coins(coin);
-        } while (preis > coin);
+            // Validate the inserted coin
+            insertedCoin = approved_coins(insertedCoin);
+            current_coin += insertedCoin;
 
-        change = coin - preis;
+        } while (current_coin < price);
 
-        cout << "\t\nIhr Rückgeld und Getränk: " << change << endl;
-    }
-
-    return coin;
-}
-
-int menu_Sicherheit(int menu) {
-    if (menu > 3 || menu == 0) {
-        cout << "\nSie können nur diese 3 Getränke auswählen. Bitte wählen Sie:" << endl;
-        cout << "\n1.Cola 1$\n2.Water 2$\n3.Sprite 1.5$\n" << endl;
-        cin.sync();
-        cin >> menu;
-    }
-
-    return menu;
-}
-
-double approved_coins(double coin) {
-    while (!(coin == 0.1 || coin == 0.2 || coin == 0.5 || coin == 1 || coin == 2)) {
-        cout << "\nEs sind nur folgende Coins zugelassen:\n\t0.1\t0.2\t0.5\t1\t2" << endl;
-        cout << "\t\nBitte Geld einwerfen:" << endl;
-        cin.sync();
-        cin >> coin;
-    }
-
-    return coin;
-}
-
-
-
-
-
-```
+        // Calculate
